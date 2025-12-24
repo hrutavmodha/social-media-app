@@ -7,7 +7,7 @@ import { pool } from '../config/db.ts'
 export default async function getPosts(req: Request, res: Response) {
     try {
         const posts = await pool.query(`
-            SELECT posts.*, users.name AS username
+            SELECT posts.*, users.name AS username, users.profile_url as user_profile_url
             FROM posts, users 
             WHERE posts.user_id = users.id;    
         `)

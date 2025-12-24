@@ -12,7 +12,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
       <div className="flex items-center mb-2">
         <img
           className="w-10 h-10 rounded-full border mr-4"
-          src={`https://avatars.dicebear.com/api/male/${post.username}.svg`} // Using a placeholder avatar
+          src={post?.user_profile_url}
           alt={String(post.username)}
         />
         <div>
@@ -24,7 +24,7 @@ const Post: React.FC<PostProps> = ({ post }) => {
       </div>
       <p className="mb-2">{post.caption}</p>
       {post.media_url && (
-        <img src={post.media_url} className="rounded-lg max-w-full" />
+        <img src={post.media_url} className="rounded-lg w-[300px] h-[300px] object-cover" />
       )}
     </div>
   );

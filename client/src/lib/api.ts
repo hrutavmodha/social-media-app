@@ -91,3 +91,11 @@ export const getProfile = async () => {
     }
     return response.json();
 }
+
+export const updateProfile = async (formData: FormData) => {
+    const response = await fetch(`${API_URL}/profile`, postFormOptions(formData));
+    if (!response.ok) {
+        throw new Error('Failed to update profile');
+    }
+    return response.json();
+}

@@ -17,14 +17,17 @@ export default async function login(req: Request, res: Response) {
         `, [
             email
         ])
-
+        
         if (user.rows.length === 0) {
-            return res.status(401).json({ message: 'Invalid credentials' });
+            return res.status(401).json({
+                message: 'Invalid credentials'
+            })
         }
         
-        const passwordMatch = await compare(password, user.rows[0].password);
+        const passwordMatch = await compare(password, user.rows[0].password)
+        
         if (!passwordMatch) {
-            return res.status(401).json({ message: 'Invalid credentials' });
+            return res.status(401).json({ message: 'Invalid credentials' })
         }
 
         const token = jwt.sign(user.rows[0], env.JWT_KEY as string)
