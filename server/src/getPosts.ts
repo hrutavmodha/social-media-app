@@ -11,7 +11,6 @@ export default async function getPosts(req: Request, res: Response) {
             FROM posts, users 
             WHERE posts.user_id = users.id;    
         `)
-        console.log(JSON.stringify(posts.rows, null, 4))
         res.status(200).json(posts.rows)
     } catch (error: any) {
         console.log(error)

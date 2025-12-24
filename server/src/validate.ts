@@ -4,11 +4,9 @@ import { env } from '../config/env.ts'
 
 export default function validate(req: Request, res: Response, next: NextFunction) {
     try {
-        // console.log(req)
         if (req.cookies.token) {
             const decoded = jwt.verify(req.cookies.token, env.JWT_KEY as string);
             (req as any).user = decoded
-            console.log(JSON.stringify(decoded, null, 4))
             next()
         } else {
             res.status(401).json({
