@@ -1,0 +1,88 @@
+[
+  {
+    "type": "POST",
+    "endpoint": "/auth/login",
+    "info": "Authenticates a user with provided credentials and returns user information.",
+    "body": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "username",
+        "password"
+      ]
+    }
+  },
+  {
+    "type": "POST",
+    "endpoint": "/auth/register",
+    "info": "Registers a new user with provided details.",
+    "body": {
+      "type": "object",
+      "properties": {
+        "username": {
+          "type": "string"
+        },
+        "email": {
+          "type": "string",
+          "format": "email"
+        },
+        "password": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "username",
+        "email",
+        "password"
+      ]
+    }
+  },
+  {
+    "type": "POST",
+    "endpoint": "/auth/logout",
+    "info": "Logs out the currently authenticated user.",
+    "body": {
+      "type": "object",
+      "properties": {},
+      "description": "Empty body or token in headers/cookies"
+    }
+  },
+  {
+    "type": "GET",
+    "endpoint": "/posts",
+    "info": "Retrieves a list of all posts."
+  },
+  {
+    "type": "POST",
+    "endpoint": "/posts",
+    "info": "Creates a new post.",
+    "body": {
+      "type": "object",
+      "properties": {
+        "content": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "content"
+      ]
+    }
+  },
+  {
+    "type": "GET",
+    "endpoint": "/trending",
+    "info": "Retrieves a list of trending topics."
+  },
+  {
+    "type": "GET",
+    "endpoint": "/who-to-follow",
+    "info": "Retrieves a list of user suggestions to follow."
+  }
+]
