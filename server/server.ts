@@ -1,18 +1,19 @@
 import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
-import register from './src/register.ts'
-import login from './src/login.ts'
-import logout from './src/logout.ts'
-import validate from './src/validate.ts'
-import post from './src/post.ts'
-import getPosts from './src/getPosts.ts'
-import getProfile from './src/getProfile.ts'
-import updateProfile from './src/updateProfile.ts'
+import register from './src/controllers/register.ts'
+import login from './src/controllers/login.ts'
+import logout from './src/controllers/logout.ts'
+import validate from './src/utils/validate.ts'
+import post from './src/controllers/post.ts'
+import getPosts from './src/controllers/getPosts.ts'
+import getProfile from './src/controllers/getProfile.ts'
+import updateProfile from './src/controllers/updateProfile.ts'
+import setNewPassword from './src/controllers/setNewPassword.ts'
 import { env } from './config/env.ts'
 import { initDb } from './config/db.ts'
 import { pool } from './config/db.ts'
-import { upload } from './src/upload.ts'
+import { upload } from './src/utils/upload.ts'
 
 const app = express() 
 
@@ -25,12 +26,18 @@ app.use(cookieParser())
 app.use('/uploads', express.static('uploads'))
 
 initDb(pool)
-
+.then(() => {
+    console.log('Connected to PostGreSQL successfully')    
+})
 app.post('/auth/register', register)
 app.post('/auth/login', login)
 app.post('/auth/logout', logout)
+app.post('/auth/forgot-password', setNewPassword)
+app.post('/auth/reset-password', (req: any, res: any) => {
+    console.log(JSON.stringify(req.body, null, 4))
+})
 app.get('/posts', getPosts)
-app.post('/posts', validate, upload.array('media'), post)
+app.post('/posts', validate, upload.array('media', 5), post)
 app.get('/profile', validate, getProfile)
 app.post('/profile', validate, upload.single('profile'), updateProfile)
 

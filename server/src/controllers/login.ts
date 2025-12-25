@@ -4,8 +4,8 @@ import type {
 } from 'express'
 import { compare } from 'bcrypt'
 import jwt from 'jsonwebtoken'
-import { pool } from '../config/db.ts'
-import { env } from '../config/env.ts'
+import { pool } from '../../config/db.ts'
+import { env } from '../../config/env.ts'
 
 export default async function login(req: Request, res: Response) {
     try {

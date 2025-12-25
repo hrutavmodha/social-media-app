@@ -61,6 +61,11 @@ const Login = () => {
               Register
             </Link>
           </p>
+          <p className="text-sm">
+            <Link to="/forgot-password" className="text-blue-600 hover:underline">
+              Forgot password?
+            </Link>
+          </p>
           <div>
             <button type="submit" className="w-full btn btn-primary">
               Login

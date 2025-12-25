@@ -1,6 +1,6 @@
 import type { NextFunction, Request, Response } from 'express'
 import jwt from 'jsonwebtoken'
-import { env } from '../config/env.ts'
+import { env } from '../../config/env.ts'
 
 export default function validate(req: Request, res: Response, next: NextFunction) {
     try {

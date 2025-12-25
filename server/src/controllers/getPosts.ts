@@ -2,7 +2,7 @@ import type {
     Request,
     Response
 } from 'express'
-import { pool } from '../config/db.ts'
+import { pool } from '../../config/db.ts'
 
 export default async function getPosts(req: Request, res: Response) {
     try {

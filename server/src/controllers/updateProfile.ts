@@ -2,8 +2,8 @@ import type {
     Request,
     Response
 } from 'express'
-import { pool } from '../config/db.ts'
-import { env } from '../config/env.ts'
+import { pool } from '../../config/db.ts'
+import { env } from '../../config/env.ts'
 
 export default async function updateProfile(req: Request, res: Response) {
     try {

@@ -23,8 +23,14 @@ const Post: React.FC<PostProps> = ({ post }) => {
         </div>
       </div>
       <p className="mb-2">{post.caption}</p>
-      {post.media_url && (
-        <img src={post.media_url} className="rounded-lg w-[300px] h-[300px] object-cover" />
+      {post.media_url && post.media_url.length > 0 && (
+        <div className="flex flex-wrap gap-2 mt-2">
+          {post.media_url.map((url, index) => (
+            <a key={index} href={url} target="_blank" rel="noopener noreferrer">
+              <img src={url} className="rounded-lg w-[300px] h-[300px] object-cover" />
+            </a>
+          ))}
+        </div>
       )}
     </div>
   );

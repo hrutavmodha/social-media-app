@@ -1,5 +1,5 @@
 import type { Request, Response } from 'express'
-import { pool } from '../config/db.ts'
+import { pool } from '../../config/db.ts'
 import { hash } from 'bcrypt'
 
 export default async function register(req: Request, res: Response) {

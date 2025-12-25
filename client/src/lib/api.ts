@@ -99,3 +99,19 @@ export const updateProfile = async (formData: FormData) => {
     }
     return response.json();
 }
+
+export const forgotPassword = async (email: string) => {
+  const response = await fetch(`${API_URL}/auth/forgot-password`, postOptions({ email }));
+  if (!response.ok) {
+    throw new Error('Failed to send password reset email');
+  }
+  return response.json();
+};
+
+export const resetPassword = async (token: string, password: string) => {
+  const response = await fetch(`${API_URL}/auth/reset-password`, postOptions({ token, password }));
+  if (!response.ok) {
+    throw new Error('Failed to reset password');
+  }
+  return response.json();
+};
