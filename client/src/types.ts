@@ -5,6 +5,16 @@ export interface User {
   profile_url?: string;
 }
 
+export interface Comment {
+  id: number;
+  user_id: number;
+  post_id: number;
+  text: string;
+  created_at: string;
+  username: string;
+  user_profile_url?: string;
+}
+
 export interface Post {
   id: number;
   user_id: number;
@@ -14,4 +24,5 @@ export interface Post {
   created_at: string;
   username: string;
   user_profile_url?: string;
+  comments?: Comment[];
 }

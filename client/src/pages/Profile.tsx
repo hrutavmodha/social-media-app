@@ -70,7 +70,6 @@ const Profile = () => {
       setFile(e.target.files[0]);
     }
   };
-  console.log('Profile DS is', JSON.stringify(profile, null, 4))
   return (
     <Layout>
       <div className="p-4">

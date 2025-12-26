@@ -2,18 +2,18 @@ import { createContext, useContext, useState } from 'react';
 import { logout as apiLogout } from '../lib/api';
 
 interface AuthContextType {
-  user: { name?: string } | null; // User can be null or an object with an optional name
-  login: () => void;
+  user: { id: number; name?: string } | null;
+  login: (userData: { id: number; name?: string }) => void;
   logout: () => Promise<void>;
 }
 
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
 
 export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
-  const [user, setUser] = useState<{ name?: string } | null>(null);
+  const [user, setUser] = useState<{ id: number; name?: string } | null>(null);
 
-  const login = () => {
-    setUser({});
+  const login = (userData: { id: number; name?: string }) => {
+    setUser(userData);
   };
 
   const logout = async () => {
