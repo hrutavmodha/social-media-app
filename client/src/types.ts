@@ -3,6 +3,9 @@ export interface User {
   name: string;
   email: string;
   profile_url?: string;
+  followersCount?: number;
+  followingCount?: number;
+  isFollowing?: boolean;
 }
 
 export interface Comment {

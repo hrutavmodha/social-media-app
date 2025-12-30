@@ -100,6 +100,39 @@ export const updateProfile = async (formData: FormData) => {
     return response.json();
 }
 
+export const getOtherUserProfile = async (userId: string) => {
+  const response = await fetch(`${API_URL}/users/${userId}`, fetchOptions);
+  console.log(JSON.stringify(response))
+  if (!response.ok) {
+    throw new Error('Failed to fetch user profile');
+  }
+  return response.json();
+};
+
+export const followUser = async (userId: string) => {
+  const response = await fetch(`${API_URL}/users/${userId}/follow`, { method: 'POST', ...fetchOptions });
+  if (!response.ok) {
+    throw new Error('Failed to follow user');
+  }
+  return response.json();
+};
+
+export const unfollowUser = async (userId: string) => {
+  const response = await fetch(`${API_URL}/users/${userId}/unfollow`, { method: 'POST', ...fetchOptions });
+  if (!response.ok) {
+    throw new Error('Failed to unfollow user');
+  }
+  return response.json();
+};
+
+export const checkIsFollowing = async (userId: string) => {
+  const response = await fetch(`${API_URL}/users/${userId}/is-following`, fetchOptions);
+  if (!response.ok) {
+    throw new Error('Failed to check follow status');
+  }
+  return response.json();
+};
+
 export const forgotPassword = async (email: string) => {
   const response = await fetch(`${API_URL}/auth/forgot-password`, postOptions({ email }));
   console.log(JSON.stringify(response, null, 4))
@@ -126,9 +159,17 @@ export const changePassword = async (oldPassword: string, newPassword: string) =
 };
 
 export const postComment = async (postId: number, text: string) => {
-  const response = await fetch(`${API_URL}/comment`, postOptions({ postId, text }));
+  const response = await fetch(`${API_URL}/comment`, postOptions({ id: postId, text }));
   if (!response.ok) {
     throw new Error('Failed to post comment');
+  }
+  return response.json();
+};
+
+export const getCommentsForPost = async (postId: number) => {
+  const response = await fetch(`${API_URL}/comments/${postId}`, fetchOptions);
+  if (!response.ok) {
+    throw new Error('Failed to fetch comments for post');
   }
   return response.json();
 };

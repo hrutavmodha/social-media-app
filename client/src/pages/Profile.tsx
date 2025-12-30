@@ -89,6 +89,10 @@ const Profile = () => {
                   <div>
                     <h2 className="text-3xl font-bold">{profile.name}</h2>
                     <p className="text-gray-500">{profile.email}</p>
+                    <div className="flex space-x-4 mt-2">
+                      <p>Followers: {profile.followersCount}</p>
+                      <p>Following: {profile.followingCount}</p>
+                    </div>
                   </div>
                 </div>
                 <button onClick={handleEdit} className="mt-4 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">

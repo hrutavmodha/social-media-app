@@ -5,6 +5,7 @@ import Home from './pages/Home';
 import ProtectedRoute from './components/ProtectedRoute';
 import { Toaster } from 'react-hot-toast';
 import Profile from './pages/Profile';
+import UserProfile from './pages/UserProfile'; // Import the new UserProfile component
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
 
@@ -22,6 +23,14 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <Profile />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/users/:userId', // New route for other user profiles
+    element: (
+      <ProtectedRoute>
+        <UserProfile />
       </ProtectedRoute>
     ),
   },

@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import { login as apiLogin } from '../lib/api';
+import { login as apiLogin, getProfile } from '../lib/api';
 import toast from 'react-hot-toast';
 
 const Login = () => {
@@ -15,8 +15,14 @@ const Login = () => {
     const promise = apiLogin(email, password);
     toast.promise(promise, {
       loading: 'Logging in...',
-      success: () => {
-        login(); // No arguments passed
+      success: async () => { // Make this callback async
+        const profileData = await getProfile(); // Fetch profile data
+        if (profileData && profileData.id) { // Ensure profileData and id exist
+          login({ id: profileData.id, name: profileData.name }); // Pass id and name to login
+        } else {
+          console.error('Profile data or user ID missing after login. Authentication context will not be updated.');
+          // Do not call login() if id is missing, as per "no mock data" rule.
+        }
         navigate('/');
         return 'Logged in successfully!';
       },
