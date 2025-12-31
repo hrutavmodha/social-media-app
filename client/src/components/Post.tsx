@@ -1,21 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import type { Post as PostType, Comment as CommentType } from '../types.ts';
-import { postComment, getCommentsForPost } from '../lib/api.ts';
+import { postComment, getCommentsForPost, likePost } from '../lib/api.ts'; // Added likePost
 import { useAuth } from '../contexts/AuthContext.tsx';
 import toast from 'react-hot-toast';
 import { Link } from 'react-router-dom';
+import { FaHeart, FaRegHeart } from 'react-icons/fa'; // Import Font Awesome heart icons
 
 interface PostProps {
   post: PostType;
 }
 
 const Post: React.FC<PostProps> = ({ post: initialPost }) => {
-  const [post, setPost] = useState<PostType>(initialPost); // Keep original post data for caption, media, etc.
-  const [comments, setComments] = useState<CommentType[]>([]); // State to hold fetched comments
+  const [post, setPost] = useState<PostType>(initialPost);
+  const [comments, setComments] = useState<CommentType[]>([]);
   const [newCommentText, setNewCommentText] = useState<string>('');
+  const [likesCount, setLikesCount] = useState<number>(initialPost.likes); // State for likes count
+  const [isLiked, setIsLiked] = useState<boolean>(false); // State for current user's like status
   const { user } = useAuth();
 
-  // Fetch comments when component mounts or post.id changes
+  useEffect(() => {
+    // For now, assume not liked by default.
+    // In a real application, you would make an API call here to check if the current user
+    // has liked this post and set `isLiked` accordingly.
+    // Example: checkIsLiked(post.id, user?.id).then(setIsLiked);
+  }, [post.id, user?.id]); // Re-run if post.id or user changes
+
   useEffect(() => {
     const fetchComments = async () => {
       try {
@@ -27,7 +36,7 @@ const Post: React.FC<PostProps> = ({ post: initialPost }) => {
       }
     };
     fetchComments();
-  }, [post.id]); // Re-fetch comments if post.id changes
+  }, [post.id]);
 
   const handleCommentSubmit = async () => {
     if (!user?.id) {
@@ -44,9 +53,8 @@ const Post: React.FC<PostProps> = ({ post: initialPost }) => {
     let tempComment: CommentType | undefined;
 
     try {
-      // Optimistic UI Update
       tempComment = {
-        id: Date.now(), // Temporary ID for optimistic update
+        id: Date.now(),
         user_id: user.id,
         post_id: post.id,
         text: newCommentText,
@@ -55,22 +63,43 @@ const Post: React.FC<PostProps> = ({ post: initialPost }) => {
         user_profile_url: undefined
       };
 
-      setComments(prevComments => [...prevComments, tempComment!]); // Add to fetchedComments state
+      setComments(prevComments => [...prevComments, tempComment!]);
 
-      // Call API to post the comment
       await postComment(post.id, newCommentText);
 
       console.log('Comment submitted successfully for post:', post.id);
       toast.success('Comment posted successfully!');
       setNewCommentText('');
-      // In a real app, you might refresh comments or update the temp comment with real data from response
     } catch (error) {
       console.error('Error submitting comment:', error);
       toast.error('Failed to post comment. Please try again.');
-      // Revert optimistic update if API call fails
       if (tempComment) {
         setComments(prevComments => prevComments.filter(c => c.id !== tempComment!.id));
       }
+    }
+  };
+
+  const handleLikeToggle = async () => {
+    if (!user?.id) {
+      toast.error('You must be logged in to like a post.');
+      return;
+    }
+
+    // Optimistic UI update
+    setIsLiked(prev => !prev);
+    setLikesCount(prev => (isLiked ? prev - 1 : prev + 1));
+
+    try {
+      // Assuming backend handles the toggle (like/unlike) based on user and post ID
+      await likePost(post.id);
+      // Backend response could confirm new like count and status,
+      // which we could use to update state more robustly if needed.
+    } catch (error) {
+      console.error('Error toggling like:', error);
+      toast.error('Failed to like/unlike post. Please try again.');
+      // Revert optimistic update if API call fails
+      setIsLiked(prev => !prev);
+      setLikesCount(prev => (isLiked ? prev - 1 : prev + 1));
     }
   };
 
@@ -108,10 +137,25 @@ const Post: React.FC<PostProps> = ({ post: initialPost }) => {
         </div>
       )}
 
+      {/* Like Button */}
+      <div className="flex items-center mt-4">
+        <button
+          onClick={handleLikeToggle}
+          className="flex items-center text-gray-600 hover:text-red-500 transition-colors duration-200"
+        >
+          {isLiked ? (
+            <FaHeart className="text-red-500 text-xl" /> // Filled heart for liked
+          ) : (
+            <FaRegHeart className="text-xl" /> // Empty heart for not liked
+          )}
+          <span className="ml-1 text-sm">{likesCount}</span>
+        </button>
+      </div>
+
       {/* Comments Section */}
       <div className="mt-4">
         <h4 className="font-semibold mb-2">Comments</h4>
-        {comments.length > 0 ? ( // Use comments state here
+        {comments.length > 0 ? (
           comments.map((comment: CommentType) => (
             <div key={comment.id} className="mb-2 p-2 bg-gray-100 rounded-lg">
               <Link to={`/users/${comment.user_id}`} className="flex items-center text-sm font-bold">
@@ -152,4 +196,3 @@ const Post: React.FC<PostProps> = ({ post: initialPost }) => {
 };
 
 export default Post;
-

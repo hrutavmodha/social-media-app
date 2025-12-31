@@ -24,6 +24,7 @@ export interface Post {
   caption: string;
   media_url: string;
   media_type: string;
+  likes: number;
   created_at: string;
   username: string;
   user_profile_url?: string;

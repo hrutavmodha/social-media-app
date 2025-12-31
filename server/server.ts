@@ -1,4 +1,4 @@
-import express, { type Request } from 'express'
+import express from 'express'
 import cors from 'cors'
 import cookieParser from 'cookie-parser'
 import register from './src/controllers/register.ts'
@@ -14,6 +14,7 @@ import setNewPassword from './src/controllers/setNewPassword.ts'
 import comment from './src/controllers/comment.ts'
 import getComments from './src/controllers/getComments.ts'
 import getUser from './src/controllers/getUser.ts'
+import followUser from './src/controllers/followUser.ts'
 import { env } from './config/env.ts'
 import { initDb } from './config/db.ts'
 import { pool } from './config/db.ts'
@@ -36,6 +37,7 @@ initDb(pool)
 .catch((error: any) => {
     console.log(error)    
 })
+
 app.post('/auth/register', register)
 app.post('/auth/login', login)
 app.post('/auth/logout', logout)
@@ -48,6 +50,7 @@ app.post('/profile', validate, upload.single('profile'), updateProfile)
 app.post('/comment', validate, comment)
 app.get('/comments/:id', getComments)
 app.get('/users/:id', getUser)
+app.post('/users/:id/follow', validate, followUser)
 
 app.listen(
     Number(env.PORT as string),

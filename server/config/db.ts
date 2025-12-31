@@ -17,6 +17,8 @@ export async function initDb(pool: Pool) {
             email TEXT UNIQUE NOT NULL,
             password TEXT NOT NULL,
             profile_url TEXT UNIQUE,
+            followers INTEGER DEFAULT 0,
+            following INTEGER DEFAULT 0,
             created_at TIMESTAMP DEFAULT NOW()
         );
         
@@ -49,6 +51,12 @@ export async function initDb(pool: Pool) {
                 REFERENCES users(id),
             text TEXT NOT NULL,
             created_at TIMESTAMP DEFAULT NOW()
+        );
+
+        CREATE TABLE IF NOT EXISTS follows (
+            id SERIAL PRIMARY KEY,
+            user_id INTEGER REFERENCES users(id),
+            follower_id INTEGER REFERENCES users(id)
         );
     `)
 }

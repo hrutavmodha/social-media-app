@@ -117,6 +117,14 @@ export const followUser = async (userId: string) => {
   return response.json();
 };
 
+export const likePost = async (postId: number) => {
+  const response = await fetch(`${API_URL}/posts/${postId}/like`, { method: 'POST', ...fetchOptions });
+  if (!response.ok) {
+    throw new Error('Failed to like post');
+  }
+  return response.json();
+};
+
 export const unfollowUser = async (userId: string) => {
   const response = await fetch(`${API_URL}/users/${userId}/unfollow`, { method: 'POST', ...fetchOptions });
   if (!response.ok) {

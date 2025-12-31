@@ -5,12 +5,11 @@ import type {
 import { pool } from '../../config/db.ts'
 
 export default async function getUser(req: Request, res: Response) {
-    // console.log(req.params)
     try {
         const user = await pool.query(`
-        SELECT * FROM users 
-        WHERE id = $1
-    `, [
+            SELECT * FROM users 
+            WHERE id = $1
+        `, [
             req.params.id
         ])
         res.status(200).json(user.rows[0])
