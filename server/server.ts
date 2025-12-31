@@ -15,6 +15,7 @@ import comment from './src/controllers/comment.ts'
 import getComments from './src/controllers/getComments.ts'
 import getUser from './src/controllers/getUser.ts'
 import followUser from './src/controllers/followUser.ts'
+import likePost from './src/controllers/likePost.ts'
 import { env } from './config/env.ts'
 import { initDb } from './config/db.ts'
 import { pool } from './config/db.ts'
@@ -51,6 +52,7 @@ app.post('/comment', validate, comment)
 app.get('/comments/:id', getComments)
 app.get('/users/:id', getUser)
 app.post('/users/:id/follow', validate, followUser)
+app.post('/posts/:id/like', validate, likePost)
 
 app.listen(
     Number(env.PORT as string),

@@ -36,12 +36,19 @@ export const register = async (username: string, email: string, password: string
   return response.json();
 };
 
-export const getPosts = async () => {
+export const getPosts = async (): Promise<PostType[]> => {
   const response = await fetch(`${API_URL}/posts`, fetchOptions);
   if (!response.ok) {
     throw new Error('Failed to fetch posts');
   }
-  return response.json();
+  const postsData = await response.json();
+  // Ensure media_url is an array and other default fields are present
+  return postsData.map((post: any) => ({
+    ...post,
+    media_url: post.media_url || [], // Ensure media_url is an array
+    comments: post.comments || [], // Ensure comments is an array
+    is_liked: post.is_liked || false, // Ensure is_liked is boolean
+  })) as PostType[];
 };
 
 export const createPost = async (caption: string, media: File[]) => {
@@ -178,6 +185,14 @@ export const getCommentsForPost = async (postId: number) => {
   const response = await fetch(`${API_URL}/comments/${postId}`, fetchOptions);
   if (!response.ok) {
     throw new Error('Failed to fetch comments for post');
+  }
+  return response.json();
+};
+
+export const getPostById = async (postId: number) => {
+  const response = await fetch(`${API_URL}/posts/${postId}`, fetchOptions);
+  if (!response.ok) {
+    throw new Error('Failed to fetch post by ID');
   }
   return response.json();
 };

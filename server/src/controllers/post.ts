@@ -11,12 +11,30 @@ export default async function post(req: Request, res: Response) {
             return `http://${env.HOST}:${env.PORT}/${file.path}`
         })
         console.log(JSON.stringify(paths, null, 4))
-        await pool.query(`
-            INSERT INTO posts(user_id, caption, media_url) 
-            VALUES ($1, $2, $3)    
+        const post = await pool.query(`
+            INSERT INTO posts(user_id, caption) 
+            VALUES ($1, $2)
+            RETURNING id;    
         `, [
-            (req as any).user.id, req.body.caption, paths
+            (req as any).user.id, req.body.caption
         ])
+        if (paths.length !== 0) {
+            paths.forEach(async (path: string) => {
+                await pool.query(`
+                    INSERT INTO medias(post_id, url)    
+                    VALUES ($1, $2);
+                `, [
+                    post.rows[0].id, path
+                ])
+            })
+            await pool.query(`
+                UPDATE posts
+                SET has_media = TRUE
+                WHERE id = $1
+           `, [
+                post.rows[0].id
+            ])
+        }
         res.status(200).json({
             message: 'Uploaded successfully'
         })

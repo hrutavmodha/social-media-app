@@ -16,7 +16,7 @@ export async function initDb(pool: Pool) {
             name VARCHAR(100) NOT NULL,
             email TEXT UNIQUE NOT NULL,
             password TEXT NOT NULL,
-            profile_url TEXT UNIQUE,
+            profile_url TEXT DEFAULT 'http://localhost:5173/src/assets/default.png',
             followers INTEGER DEFAULT 0,
             following INTEGER DEFAULT 0,
             created_at TIMESTAMP DEFAULT NOW()
@@ -28,11 +28,19 @@ export async function initDb(pool: Pool) {
                 REFERENCES users(id) 
                 ON DELETE CASCADE,
             caption TEXT,
-            media_url TEXT[] UNIQUE,
+            has_media BOOLEAN DEFAULT FALSE,
             likes INTEGER,
             created_at TIMESTAMP DEFAULT NOW(),
             updated_at TIMESTAMP DEFAULT NOW()
-       );
+        );
+
+        CREATE TABLE IF NOT EXISTS medias (
+            id SERIAL PRIMARY KEY,
+            post_id INTEGER 
+                REFERENCES posts(id)
+                ON DELETE CASCADE,
+            url TEXT UNIQUE
+        );
 
         CREATE TABLE IF NOT EXISTS password_reset_tokens (
             id SERIAL PRIMARY KEY,

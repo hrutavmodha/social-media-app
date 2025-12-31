@@ -22,11 +22,12 @@ export interface Post {
   id: number;
   user_id: number;
   caption: string;
-  media_url: string;
-  media_type: string;
+  has_media?: boolean;
+  media_url: string[];
   likes: number;
   created_at: string;
   username: string;
   user_profile_url?: string;
   comments?: Comment[];
+  is_liked?: boolean;
 }
