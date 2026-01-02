@@ -3,6 +3,9 @@ import { pool } from '../../config/db.ts';
 import { env } from '../../config/env.ts';
 
 export default async function updatePost(req: Request, res: Response) {
+    if (!req.params.id || typeof req.params.id !== 'string') {
+        return res.status(400).json({ message: 'Post ID is required and must be a string.' });
+    }
     const postId = parseInt(req.params.id);
     const { caption, clearMedia } = req.body;
     const userId = (req as any).user.id;
