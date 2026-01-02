@@ -31,3 +31,16 @@ export interface Post {
   comments?: Comment[];
   is_liked?: boolean;
 }
+
+export interface Notification {
+  id: number;
+  sender_id: number;
+  sender_username: string;
+  sender_profile_url?: string;
+  type: 'follow' | 'like' | 'comment';
+  post_id?: number;
+  comment_id?: number;
+  read: boolean;
+  created_at: string;
+  post_caption?: string;
+}

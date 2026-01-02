@@ -8,6 +8,8 @@ const ResetPassword = () => {
     const [token, setToken] = useState<string | null>(null);
     const [password, setPassword] = useState('');
     const [confirmPassword, setConfirmPassword] = useState('');
+    const [passwordError, setPasswordError] = useState<string | null>(null);
+    const [confirmPasswordError, setConfirmPasswordError] = useState<string | null>(null);
 
     useEffect(() => {
         const tokenFromUrl = searchParams.get('token');
@@ -18,23 +20,51 @@ const ResetPassword = () => {
         }
     }, [searchParams]);
 
+    const validateForm = () => {
+        let isValid = true;
+
+        if (!password.trim()) {
+            setPasswordError('New password is required.');
+            isValid = false;
+        } else if (password.trim().length < 6) {
+            setPasswordError('New password must be at least 6 characters long.');
+            isValid = false;
+        } else {
+            setPasswordError(null);
+        }
+
+        if (!confirmPassword.trim()) {
+            setConfirmPasswordError('Confirm password is required.');
+            isValid = false;
+        } else if (password !== confirmPassword) {
+            setConfirmPasswordError('Passwords do not match.');
+            isValid = false;
+        } else {
+            setConfirmPasswordError(null);
+        }
+
+        return isValid;
+    };
+
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
+
+        if (!validateForm()) {
+            return;
+        }
+
         if (!token) {
             toast.error('Invalid or missing reset token.');
             return;
         }
-        if (password !== confirmPassword) {
-            toast.error('Passwords do not match');
-            return;
-        }
+        
         const promise = apiResetPassword(token, password);
 
         toast.promise(promise, {
             loading: 'Resetting password...',
             success: 'Password has been reset successfully!',
             error: (err: any) => {
-                return err.message;
+                return err.message || 'Failed to reset password. Please try again.';
             }
         });
     };
@@ -51,10 +81,14 @@ const ResetPassword = () => {
                         <input
                             type="password"
                             placeholder="Enter new password"
-                            className="w-full input input-bordered"
+                            className={`w-full input input-bordered ${passwordError ? 'border-red-500' : ''}`}
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={(e) => {
+                                setPassword(e.target.value);
+                                setPasswordError(null);
+                            }}
                         />
+                        {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
                     </div>
                     <div>
                         <label className="label">
@@ -63,10 +97,14 @@ const ResetPassword = () => {
                         <input
                             type="password"
                             placeholder="Confirm new password"
-                            className="w-full input input-bordered"
+                            className={`w-full input input-bordered ${confirmPasswordError ? 'border-red-500' : ''}`}
                             value={confirmPassword}
-                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            onChange={(e) => {
+                                setConfirmPassword(e.target.value);
+                                setConfirmPasswordError(null);
+                            }}
                         />
+                        {confirmPasswordError && <p className="text-red-500 text-sm mt-1">{confirmPasswordError}</p>}
                     </div>
                     <div>
                         <button type="submit" className="w-full btn btn-primary">

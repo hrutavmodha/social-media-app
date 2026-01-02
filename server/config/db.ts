@@ -29,7 +29,7 @@ export async function initDb(pool: Pool) {
                 ON DELETE CASCADE,
             caption TEXT,
             has_media BOOLEAN DEFAULT FALSE,
-            likes INTEGER,
+            likes INTEGER DEFAULT 0,
             created_at TIMESTAMP DEFAULT NOW(),
             updated_at TIMESTAMP DEFAULT NOW()
         );

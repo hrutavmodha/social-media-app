@@ -7,29 +7,63 @@ import toast from 'react-hot-toast';
 const Login = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [emailError, setEmailError] = useState<string | null>(null);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
   const { login } = useAuth();
   const navigate = useNavigate();
 
+  const validateForm = () => {
+    let isValid = true;
+
+    if (!email.trim()) {
+      setEmailError('Email is required.');
+      isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError('Invalid email format.');
+      isValid = false;
+    } else {
+      setEmailError(null);
+    }
+
+    if (!password.trim()) {
+      setPasswordError('Password is required.');
+      isValid = false;
+    } else {
+      setPasswordError(null);
+    }
+
+    return isValid;
+  };
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
     const promise = apiLogin(email, password);
     toast.promise(promise, {
       loading: 'Logging in...',
-      success: async () => { // Make this callback async
-        const profileData = await getProfile(); // Fetch profile data
-        if (profileData && profileData.id) { // Ensure profileData and id exist
-          login({ id: profileData.id, name: profileData.name }); // Pass id and name to login
-        } else {
-          console.error('Profile data or user ID missing after login. Authentication context will not be updated.');
-          // Do not call login() if id is missing, as per "no mock data" rule.
-        }
-        navigate('/');
+      success: () => {
+        getProfile().then(profileData => {
+            if (profileData && profileData.id) {
+              login({ id: profileData.id, name: profileData.name, profile_url: profileData.profile_url });
+            } else {
+              console.error('Profile data or user ID missing after login. Authentication context will not be updated.');
+            }
+            navigate('/');
+        }).catch(err => {
+            console.error('Error fetching profile after login:', err);
+            toast.error('Failed to fetch profile after login.');
+        });
         return 'Logged in successfully!';
       },
-      error: (err: any) => { // TODO: Refine error type
-        return err.message;
+      error: (err: any) => {
+        // Display specific error message from server if available, otherwise a generic one
+        return err.message || 'Login failed. Please check your credentials.';
       }
-    })
+    });
   };
 
   return (
@@ -44,10 +78,14 @@ const Login = () => {
             <input
               type="email"
               placeholder="Email"
-              className="w-full input input-bordered"
+              className={`w-full input input-bordered ${emailError ? 'border-red-500' : ''}`}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setEmailError(null); // Clear error on change
+              }}
             />
+            {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
           </div>
           <div>
             <label className="label">
@@ -56,10 +94,14 @@ const Login = () => {
             <input
               type="password"
               placeholder="Enter Password"
-              className="w-full input input-bordered"
+              className={`w-full input input-bordered ${passwordError ? 'border-red-500' : ''}`}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setPasswordError(null); // Clear error on change
+              }}
             />
+            {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
           </div>
           <p className="text-sm">
             Don't have an account?{' '}

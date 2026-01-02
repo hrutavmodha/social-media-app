@@ -5,13 +5,14 @@ import toast from 'react-hot-toast';
 const CreatePost = ({ onPostCreated }: { onPostCreated: () => void }) => {
   const [caption, setCaption] = useState('');
   const [media, setMedia] = useState<File[]>([]);
+  const [captionError, setCaptionError] = useState<string | null>(null);
 
   const handleMediaChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const newFiles = Array.from(e.target.files);
       if (media.length + newFiles.length > 5) {
         toast.error('You can only upload a maximum of 5 files.');
-        e.target.value = ''; // Reset file input
+        e.target.value = '';
         return;
       }
       setMedia(prevMedia => [...prevMedia, ...newFiles]);
@@ -24,10 +25,17 @@ const CreatePost = ({ onPostCreated }: { onPostCreated: () => void }) => {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (media.length === 0 && !caption) {
-        toast.error("You can't create an empty post.");
+    setCaptionError(null);
+
+    if (!caption.trim() && media.length === 0) {
+        setCaptionError("You can't create an empty post. Add a caption or media.");
         return;
     }
+    if (caption.trim().length > 500) {
+        setCaptionError("Caption cannot exceed 500 characters.");
+        return;
+    }
+
     const promise = createPost(caption, media);
 
     toast.promise(promise, {
@@ -38,8 +46,8 @@ const CreatePost = ({ onPostCreated }: { onPostCreated: () => void }) => {
             onPostCreated();
             return 'Post created successfully!';
         },
-        error: (err: any) => { // TODO: Refine error type
-            return err.message;
+        error: (err: any) => {
+            return err.message || 'Failed to create post. Please try again.';
         }
     })
   };
@@ -48,12 +56,16 @@ const CreatePost = ({ onPostCreated }: { onPostCreated: () => void }) => {
     <div className="p-4 border-b border-gray-200">
       <form onSubmit={handleSubmit}>
         <textarea
-          className="w-full p-2 border border-gray-300 rounded-md"
+          className={`w-full p-2 border rounded-md ${captionError ? 'border-red-500' : 'border-gray-300'}`}
           rows={3}
           placeholder="What's happening?"
           value={caption}
-          onChange={(e) => setCaption(e.target.value)}
+          onChange={(e) => {
+            setCaption(e.target.value);
+            setCaptionError(null);
+          }}
         ></textarea>
+        {captionError && <p className="text-red-500 text-sm mt-1">{captionError}</p>}
         <div className="flex justify-between items-center mt-2">
           <input
             type="file"

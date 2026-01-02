@@ -8,6 +8,9 @@ import Profile from './pages/Profile';
 import UserProfile from './pages/UserProfile'; // Import the new UserProfile component
 import ForgotPassword from './pages/ForgotPassword';
 import ResetPassword from './pages/ResetPassword';
+import PostDetail from './pages/PostDetail'; // Import the new PostDetail component
+import SearchResults from './pages/SearchResults'; // Import the new SearchResults component
+import Notifications from './pages/Notifications'; // Import the new Notifications component
 
 const router = createBrowserRouter([
   {
@@ -31,6 +34,22 @@ const router = createBrowserRouter([
     element: (
       <ProtectedRoute>
         <UserProfile />
+      </ProtectedRoute>
+    ),
+  },
+  {
+    path: '/posts/:postId', // New route for individual post details
+    element: <PostDetail />,
+  },
+  {
+    path: '/search', // New route for search results
+    element: <SearchResults />,
+  },
+  {
+    path: '/notifications', // New protected route for notifications
+    element: (
+      <ProtectedRoute>
+        <Notifications />
       </ProtectedRoute>
     ),
   },

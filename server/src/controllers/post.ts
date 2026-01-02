@@ -7,41 +7,47 @@ import { env } from '../../config/env.ts'
 
 export default async function post(req: Request, res: Response) {
     try {
-        let paths: Array<any> = (req.files as any).map((file: any) => {
-            return `http://${env.HOST}:${env.PORT}/${file.path}`
-        })
-        console.log(JSON.stringify(paths, null, 4))
-        const post = await pool.query(`
-            INSERT INTO posts(user_id, caption) 
-            VALUES ($1, $2)
-            RETURNING id;    
+        const userId = (req as any).user.id;
+        const caption = req.body.caption;
+        const mediaFiles = req.files as Express.Multer.File[];
+
+        if (!caption && (!mediaFiles || mediaFiles.length === 0)) {
+            return res.status(400).json({ message: 'A post must have either a caption or media.' });
+        }
+
+        let paths: Array<string> = [];
+        if (mediaFiles && mediaFiles.length > 0) {
+            paths = mediaFiles.map((file: any) => {
+                return `http://${env.HOST}:${env.PORT}/${file.path}`
+            });
+        }
+        
+        const postResult = await pool.query(`
+            INSERT INTO posts(user_id, caption, has_media)
+            VALUES ($1, $2, $3)
+            RETURNING id;
         `, [
-            (req as any).user.id, req.body.caption
-        ])
+            userId, caption, paths.length > 0
+        ]);
+        const postId = postResult.rows[0].id;
+
         if (paths.length !== 0) {
-            paths.forEach(async (path: string) => {
+            for (const path of paths) {
                 await pool.query(`
                     INSERT INTO medias(post_id, url)    
                     VALUES ($1, $2);
                 `, [
-                    post.rows[0].id, path
-                ])
-            })
-            await pool.query(`
-                UPDATE posts
-                SET has_media = TRUE
-                WHERE id = $1
-           `, [
-                post.rows[0].id
-            ])
+                    postId, path
+                ]);
+            }
         }
         res.status(200).json({
-            message: 'Uploaded successfully'
+            message: 'Post created successfully'
         })
     } catch (error: any) {
-        console.log(error)
+        console.error(error)
         res.status(500).json({
-            message: 'An Internal Server Error occured. Please try again later'
+            message: 'An Internal Server Error occurred. Please try again later'
         })
     }
 }

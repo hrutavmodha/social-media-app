@@ -10,6 +10,16 @@ import { env } from '../../config/env.ts'
 export default async function login(req: Request, res: Response) {
     try {
         const { email, password } = req.body
+
+        if (!email || !password) {
+            return res.status(400).json({ message: 'Email and password are required.' });
+        }
+
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(email)) {
+            return res.status(400).json({ message: 'Invalid email format.' });
+        }
+
         const user = await pool.query(`
             SELECT *
             FROM users
@@ -39,7 +49,9 @@ export default async function login(req: Request, res: Response) {
             message: 'Logged in successfully'
         })
     } catch (error: any) {
-        console.log(error)
-        res.status(500).send('An internal server error occured. Please try again later')
+        console.error(error)
+        res.status(500).json({
+            message: 'An internal server error occurred. Please try again later'
+        })
     }
 }

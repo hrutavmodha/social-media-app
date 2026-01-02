@@ -1,11 +1,11 @@
 import { useEffect, useState } from 'react';
 import CreatePost from './CreatePost';
-import Post from './Post';
+import PostComponent from './Post';
 import { getPosts } from '../lib/api';
-import type { Post as PostType } from '../types.ts';
+import type { Post as PostInterface } from '../types';
 
 const Feed = () => {
-  const [posts, setPosts] = useState<PostType[]>([]);
+  const [posts, setPosts] = useState<PostInterface[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
 
@@ -39,7 +39,7 @@ const Feed = () => {
       <div>
         {posts.map((post) => { 
           console.log(JSON.stringify(post, null, 4))
-          return <Post key={post.id} post={post} />
+          return <PostComponent key={post.id} post={post} onPostUpdated={fetchPosts} />
          })}
       </div>
     </div>

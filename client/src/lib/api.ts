@@ -1,3 +1,5 @@
+import type { Post, User, Notification } from '../types';
+
 const API_URL = 'http://localhost:3000';
 
 const fetchOptions = {
@@ -19,6 +21,12 @@ const postFormOptions = (formData: FormData) => ({
     ...fetchOptions
 })
 
+const putFormOptions = (formData: FormData) => ({
+    method: 'PUT',
+    body: formData,
+    ...fetchOptions
+})
+
 
 export const login = async (email: string, password: string) => {
   const response = await fetch(`${API_URL}/auth/login`, postOptions({ email, password }));
@@ -28,6 +36,31 @@ export const login = async (email: string, password: string) => {
   return response.json();
 };
 
+export const updatePost = async (
+  postId: number,
+  caption: string,
+  media: File[],
+  clearMedia: boolean
+) => {
+  const formData = new FormData();
+  formData.append('caption', caption);
+  media.forEach(file => {
+    formData.append('media', file);
+  });
+  if (clearMedia) {
+    formData.append('clearMedia', 'true');
+  }
+
+  const response = await fetch(`${API_URL}/posts/${postId}`, putFormOptions(formData));
+
+  if (!response.ok) {
+    throw new Error('Failed to update post');
+  }
+
+  return response.json();
+};
+
+
 export const register = async (username: string, email: string, password: string) => {
   const response = await fetch(`${API_URL}/auth/register`, postOptions({ username, email, password }));
   if (!response.ok) {
@@ -36,7 +69,7 @@ export const register = async (username: string, email: string, password: string
   return response.json();
 };
 
-export const getPosts = async (): Promise<PostType[]> => {
+export const getPosts = async (): Promise<Post[]> => {
   const response = await fetch(`${API_URL}/posts`, fetchOptions);
   if (!response.ok) {
     throw new Error('Failed to fetch posts');
@@ -48,7 +81,7 @@ export const getPosts = async (): Promise<PostType[]> => {
     media_url: post.media_url || [], // Ensure media_url is an array
     comments: post.comments || [], // Ensure comments is an array
     is_liked: post.is_liked || false, // Ensure is_liked is boolean
-  })) as PostType[];
+  })) as Post[];
 };
 
 export const createPost = async (caption: string, media: File[]) => {
@@ -181,6 +214,17 @@ export const postComment = async (postId: number, text: string) => {
   return response.json();
 };
 
+export const deletePost = async (postId: number) => {
+  const response = await fetch(`${API_URL}/posts/${postId}`, {
+    method: 'DELETE',
+    ...fetchOptions,
+  });
+  if (!response.ok) {
+    throw new Error('Failed to delete post');
+  }
+  return response.json();
+};
+
 export const getCommentsForPost = async (postId: number) => {
   const response = await fetch(`${API_URL}/comments/${postId}`, fetchOptions);
   if (!response.ok) {
@@ -189,11 +233,36 @@ export const getCommentsForPost = async (postId: number) => {
   return response.json();
 };
 
-export const getPostById = async (postId: number) => {
+export const getPostById = async (postId: number): Promise<Post> => {
   const response = await fetch(`${API_URL}/posts/${postId}`, fetchOptions);
   if (!response.ok) {
     throw new Error('Failed to fetch post by ID');
   }
   return response.json();
 };
+
+export const search = async (query: string): Promise<{ users: User[], posts: Post[] }> => {
+  const response = await fetch(`${API_URL}/search?q=${encodeURIComponent(query)}`, fetchOptions);
+  if (!response.ok) {
+    throw new Error('Failed to perform search');
+  }
+  return response.json();
+};
+
+export const getNotifications = async (markAsRead: boolean = false): Promise<Notification[]> => {
+  const response = await fetch(`${API_URL}/notifications?markAsRead=${markAsRead}`, fetchOptions);
+  if (!response.ok) {
+    throw new Error('Failed to fetch notifications');
+  }
+  return response.json();
+};
+
+export const markAllNotificationsAsRead = async () => {
+  const response = await fetch(`${API_URL}/notifications?markAsRead=true`, { method: 'PUT', ...fetchOptions });
+  if (!response.ok) {
+    throw new Error('Failed to mark notifications as read');
+  }
+  return response.json();
+};
+
 

@@ -7,10 +7,54 @@ const Register = () => {
   const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [usernameError, setUsernameError] = useState<string | null>(null);
+  const [emailError, setEmailError] = useState<string | null>(null);
+  const [passwordError, setPasswordError] = useState<string | null>(null);
   const navigate = useNavigate();
+
+  const validateForm = () => {
+    let isValid = true;
+
+    if (!username.trim()) {
+      setUsernameError('Username is required.');
+      isValid = false;
+    } else if (username.trim().length < 3) {
+      setUsernameError('Username must be at least 3 characters long.');
+      isValid = false;
+    } else {
+      setUsernameError(null);
+    }
+
+    if (!email.trim()) {
+      setEmailError('Email is required.');
+      isValid = false;
+    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      setEmailError('Invalid email format.');
+      isValid = false;
+    } else {
+      setEmailError(null);
+    }
+
+    if (!password.trim()) {
+      setPasswordError('Password is required.');
+      isValid = false;
+    } else if (password.trim().length < 6) {
+      setPasswordError('Password must be at least 6 characters long.');
+      isValid = false;
+    } else {
+      setPasswordError(null);
+    }
+
+    return isValid;
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    if (!validateForm()) {
+      return;
+    }
+
     const promise = apiRegister(username, email, password);
 
     toast.promise(promise, {
@@ -19,8 +63,8 @@ const Register = () => {
             navigate('/login');
             return 'Registered successfully! Please login.';
         },
-        error: (err: any) => { // TODO: Refine error type
-            return err.message;
+        error: (err: any) => {
+            return err.message || 'Registration failed. Please try again.';
         }
     })
   };
@@ -37,10 +81,14 @@ const Register = () => {
             <input
               type="text"
               placeholder="Username"
-              className="w-full input input-bordered"
+              className={`w-full input input-bordered ${usernameError ? 'border-red-500' : ''}`}
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => {
+                setUsername(e.target.value);
+                setUsernameError(null);
+              }}
             />
+            {usernameError && <p className="text-red-500 text-sm mt-1">{usernameError}</p>}
           </div>
           <div>
             <label className="label">
@@ -49,10 +97,14 @@ const Register = () => {
             <input
               type="email"
               placeholder="Email"
-              className="w-full input input-bordered"
+              className={`w-full input input-bordered ${emailError ? 'border-red-500' : ''}`}
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setEmailError(null);
+              }}
             />
+            {emailError && <p className="text-red-500 text-sm mt-1">{emailError}</p>}
           </div>
           <div>
             <label className="label">
@@ -61,10 +113,14 @@ const Register = () => {
             <input
               type="password"
               placeholder="Enter Password"
-              className="w-full input input-bordered"
+              className={`w-full input input-bordered ${passwordError ? 'border-red-500' : ''}`}
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e) => {
+                setPassword(e.target.value);
+                setPasswordError(null);
+              }}
             />
+            {passwordError && <p className="text-red-500 text-sm mt-1">{passwordError}</p>}
           </div>
           <p className="text-sm">
             Already have an account?{' '}
