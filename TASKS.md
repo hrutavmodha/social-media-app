@@ -123,7 +123,7 @@
 
 ### 2.5 Middleware Stack
 - [x] Implement `RequestID` middleware: attaches a UUID to each request context and response header `X-Request-ID`.
-- [ ] Implement `Logger` middleware: logs method, path, status, latency, and request ID using Go's `slog`.
+- [x] Implement `Logger` middleware: logs method, path, status, latency, and request ID using Go's `slog`.
 - [ ] Implement `Recoverer` middleware: catches panics, logs stack trace, returns 500.
 - [ ] Implement `CORS` middleware: configurable allowed origins from env var.
 
