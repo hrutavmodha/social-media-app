@@ -114,11 +114,11 @@
 ### 2.2 Configuration Loader [Agent 8 Completed]
 - [x] Create `server/internal/config/config.go` that reads all env vars into a typed `Config` struct (DB DSN, Redis URL, JWT secret, MinIO endpoint/keys, port). Fail fast on missing required fields.
 
-### 2.3 Server Bootstrap
-- [ ] Create `server/cmd/api/main.go` that: loads config, initializes DB pool (pgx), connects to Redis, connects to MinIO, registers routes, starts HTTP server with graceful shutdown on SIGINT/SIGTERM.
+### 2.3 Server Bootstrap [Agent 9 Completed]
+- [x] Create `server/cmd/api/main.go` that: loads config, initializes DB pool (pgx), connects to Redis, connects to MinIO, registers routes, starts HTTP server with graceful shutdown on SIGINT/SIGTERM.
 
 ### 2.4 Database Layer Scaffold
-- [ ] Create `server/internal/db/` directory. Add `server/sqlc.yaml` config pointing to `migrations/` for schema and `internal/db/` for generated code.
+- [WIP 8] Create `server/internal/db/` directory. Add `server/sqlc.yaml` config pointing to `migrations/` for schema and `internal/db/` for generated code.
 - [ ] Add `make sqlc-generate` target to `Makefile`.
 
 ### 2.5 Middleware Stack
