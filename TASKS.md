@@ -76,8 +76,8 @@
 ## Phase 1: Database Schema & Migrations
 
 ### 1.1 Migration Tooling
-- [ ] Initialize `golang-migrate` in `server/`. Add `Makefile` targets: `migrate-up`, `migrate-down`, `migrate-create name=<name>`.
-- [ ] Create `server/migrations/` directory with a `000001_init.up.sql` and `000001_init.down.sql`.
+- [x] Initialize `golang-migrate` in `server/`. Add `Makefile` targets: `migrate-up`, `migrate-down`, `migrate-create name=<name>`.
+- [x] Create `server/migrations/` directory with a `000001_init.up.sql` and `000001_init.down.sql`.
 
 ### 1.2 Users Table
 - [ ] Write migration for `users` table: `id` (UUID PK), `username` (unique), `email` (unique), `password_hash`, `display_name`, `bio`, `avatar_url`, `created_at`, `updated_at`.
