@@ -88,7 +88,7 @@
 - [x] Add index on `user_id` and `created_at DESC` (for feed queries).
 
 ### 1.4 Follows Table
-- [ ] Write migration for `follows` table: `follower_id` (FK → users), `following_id` (FK → users), `created_at`. Composite PK on `(follower_id, following_id)`. Prevent self-follows via check constraint.
+- [x] Write migration for `follows` table: `follower_id` (FK → users), `following_id` (FK → users), `created_at`. Composite PK on `(follower_id, following_id)`. Prevent self-follows via check constraint.
 
 ### 1.5 Likes Table
 - [ ] Write migration for `likes` table: `user_id` (FK → users), `post_id` (FK → posts), `created_at`. Composite PK on `(user_id, post_id)`.
