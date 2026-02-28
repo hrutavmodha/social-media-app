@@ -80,12 +80,12 @@
 - [x] Create `server/migrations/` directory with a `000001_init.up.sql` and `000001_init.down.sql`.
 
 ### 1.2 Users Table
-- [ ] Write migration for `users` table: `id` (UUID PK), `username` (unique), `email` (unique), `password_hash`, `display_name`, `bio`, `avatar_url`, `created_at`, `updated_at`.
-- [ ] Add indexes on `username` and `email`.
+- [WIP 6] Write migration for `users` table: `id` (UUID PK), `username` (unique), `email` (unique), `password_hash`, `display_name`, `bio`, `avatar_url`, `created_at`, `updated_at`.
+- [x] Add indexes on `username` and `email`.
 
 ### 1.3 Posts Table
-- [ ] Write migration for `posts` table: `id` (UUID PK), `user_id` (FK → users), `content` (text, max 500 chars enforced by check constraint), `media_urls` (text array), `created_at`, `updated_at`, `deleted_at` (soft delete).
-- [ ] Add index on `user_id` and `created_at DESC` (for feed queries).
+- [x] Write migration for `posts` table: `id` (UUID PK), `user_id` (FK → users), `content` (text, max 500 chars enforced by check constraint), `media_urls` (text array), `created_at`, `updated_at`, `deleted_at` (soft delete).
+- [x] Add index on `user_id` and `created_at DESC` (for feed queries).
 
 ### 1.4 Follows Table
 - [ ] Write migration for `follows` table: `follower_id` (FK → users), `following_id` (FK → users), `created_at`. Composite PK on `(follower_id, following_id)`. Prevent self-follows via check constraint.
