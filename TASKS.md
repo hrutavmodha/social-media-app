@@ -97,16 +97,16 @@
 - [x] Write migration for `comments` table: `id` (UUID PK), `post_id` (FK → posts), `user_id` (FK → users), `parent_id` (nullable FK → comments, for threading), `content`, `created_at`, `deleted_at`.
 
 ### 1.7 Notifications Table
-- [ ] Write migration for `notifications` table: `id` (UUID PK), `recipient_id` (FK → users), `actor_id` (FK → users), `type` (enum: like, comment, follow, mention), `entity_id` (UUID), `entity_type` (post/comment), `is_read` (bool), `created_at`.
+- [x] Write migration for `notifications` table: `id` (UUID PK), `recipient_id` (FK → users), `actor_id` (FK → users), `type` (enum: like, comment, follow, mention), `entity_id` (UUID), `entity_type` (post/comment), `is_read` (bool), `created_at`.
 
 ### 1.8 Sessions / Refresh Tokens (Redis Schema)
-- [ ] Document (in `server/docs/redis-schema.md`) the Redis key patterns for: refresh tokens (`session:<token_hash>` → JSON with user_id + expiry), online presence (`presence:<user_id>` → timestamp), unread notification count (`notif_count:<user_id>` → integer).
+- [x] Document (in `server/docs/redis-schema.md`) the Redis key patterns for: refresh tokens (`session:<token_hash>` → JSON with user_id + expiry), online presence (`presence:<user_id>` → timestamp), unread notification count (`notif_count:<user_id>` → integer).
 
 ---
 
 ## Phase 2: Server — Project Scaffold & Config
 
-### 2.1 Go Module Init
+### 2.1 Go Module Init [WIP 7]
 - [ ] Run `go mod init` for the server module inside `server/`.
 - [ ] Add dependencies: `chi`, `pgx/v5`, `redis/v9`, `golang-jwt/jwt/v5`, `gorilla/websocket`, `minio-go/v7`, `godotenv`, `golang-migrate`, `testify`.
 - [ ] Create `server/Makefile` with targets: `build`, `run`, `test`, `lint`, `migrate-up`, `migrate-down`.
