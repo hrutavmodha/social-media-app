@@ -100,7 +100,7 @@ func main() {
 func SetupRouter() *chi.Mux {
 	r := chi.NewRouter()
 	r.Use(customMiddleware.RequestID)
-	r.Use(middleware.Logger)
+	r.Use(customMiddleware.Logger)
 	r.Use(middleware.Recoverer)
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
