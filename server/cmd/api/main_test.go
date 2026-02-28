@@ -13,7 +13,7 @@ func TestSetupRouter(t *testing.T) {
 	cfg := &config.Config{
 		CORSAllowedOrigins: "*",
 	}
-	router := SetupRouter(cfg)
+	router := SetupRouter(cfg, nil)
 
 	t.Run("Root endpoint returns 200", func(t *testing.T) {
 		req, _ := http.NewRequest("GET", "/", nil)

@@ -143,16 +143,16 @@
 - [x] Implement `server/internal/middleware/auth.go`: extracts Bearer token from `Authorization` header, validates JWT, attaches `userID` to request context. Returns 401 on failure.
 
 ### 3.5 Register Endpoint
-- [ ] Implement `POST /api/v1/auth/register`: validate input (username 3-20 chars alphanumeric, email format, password min 8 chars), check uniqueness, hash password, insert user, return user object (no password hash).
+- [WIP 3] Implement `POST /api/v1/auth/register`: validate input (username 3-20 chars alphanumeric, email format, password min 8 chars), check uniqueness, hash password, insert user, return user object (no password hash).
 
 ### 3.6 Login Endpoint
-- [ ] Implement `POST /api/v1/auth/login`: look up user by email, verify password, issue access token + refresh token, set refresh token in `HttpOnly Secure SameSite=Strict` cookie, return access token in body.
+- [WIP 7] Implement `POST /api/v1/auth/login`: look up user by email, verify password, issue access token + refresh token, set refresh token in `HttpOnly Secure SameSite=Strict` cookie, return access token in body.
 
 ### 3.7 Refresh Endpoint
-- [ ] Implement `POST /api/v1/auth/refresh`: read refresh token from cookie, rotate it, return new access token.
+- [x] Implement `POST /api/v1/auth/refresh`: read refresh token from cookie, rotate it, return new access token. (Agent 9)
 
 ### 3.8 Logout Endpoint
-- [ ] Implement `POST /api/v1/auth/logout` (requires auth middleware): delete refresh token from Redis, clear cookie.
+- [WIP 1] Implement `POST /api/v1/auth/logout` (requires auth middleware): delete refresh token from Redis, clear cookie.
 
 ---
 
