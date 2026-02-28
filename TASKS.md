@@ -125,14 +125,13 @@
 - [x] Implement `RequestID` middleware: attaches a UUID to each request context and response header `X-Request-ID`.
 - [x] Implement `Logger` middleware: logs method, path, status, latency, and request ID using Go's `slog`.
 - [x] Implement `Recoverer` middleware: catches panics, logs stack trace, returns 500.
-- [ ] Implement `CORS` middleware: configurable allowed origins from env var.
-
+    - [WIP 2] Implement `CORS` middleware: configurable allowed origins from env var.
 ---
 
 ## Phase 3: Server — Authentication
 
-### 3.1 Password Hashing
-- [ ] Implement `server/internal/auth/password.go` with `HashPassword(plain string) (string, error)` and `CheckPassword(plain, hash string) bool` using bcrypt (cost 12).
+### 3.1 Password Hashing [Agent 1 Completed]
+- [x] Implement `server/internal/auth/password.go` with `HashPassword(plain string) (string, error)` and `CheckPassword(plain, hash string) bool` using bcrypt (cost 12).
 
 ### 3.2 JWT Utilities
 - [ ] Implement `server/internal/auth/jwt.go` with `GenerateAccessToken(userID string) (string, error)` (15-min expiry) and `ValidateAccessToken(token string) (userID string, error)`. Use RS256 with keys loaded from env.
