@@ -51,7 +51,7 @@
 
 ### 0.1 Root Scaffold
 - [x] Create the top-level folder structure: `server/`, `client/web/`, `client/mobile/android/`, `client/mobile/ios/`, `client/desktop/linux/`, `client/desktop/macos/`, `client/desktop/windows/`.
-- [WIP 6] Add root `.gitignore` covering Go, Kotlin, Swift, C, C++, and web build artifacts.
+- [x] Add root `.gitignore` covering Go, Kotlin, Swift, C, C++, and web build artifacts.
 - [ ] Add root `README.md` with project overview, folder map, and per-platform build instructions stub.
 - [ ] Add `docker-compose.yml` at root to orchestrate: `postgres`, `redis`, `minio`, and the `server` container.
 - [ ] Add `.env.example` at root documenting all required environment variables (DB URL, Redis URL, JWT secret, MinIO keys, etc.).
