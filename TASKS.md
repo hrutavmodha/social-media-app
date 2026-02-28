@@ -53,23 +53,23 @@
 - [x] Create the top-level folder structure: `server/`, `client/web/`, `client/mobile/android/`, `client/mobile/ios/`, `client/desktop/linux/`, `client/desktop/macos/`, `client/desktop/windows/`.
 - [x] Add root `.gitignore` covering Go, Kotlin, Swift, C, C++, and web build artifacts.
 - [x] Add root `README.md` with project overview, folder map, and per-platform build instructions stub.
-- [ ] Add `docker-compose.yml` at root to orchestrate: `postgres`, `redis`, `minio`, and the `server` container.
-- [ ] Add `.env.example` at root documenting all required environment variables (DB URL, Redis URL, JWT secret, MinIO keys, etc.).
+- [x] Add `docker-compose.yml` at root to orchestrate: `postgres`, `redis`, `minio`, and the `server` container.
+- [x] Add `.env.example` at root documenting all required environment variables (DB URL, Redis URL, JWT secret, MinIO keys, etc.).
 
 ### 0.2 PostgreSQL Container Setup
-- [ ] Add `postgres` service to `docker-compose.yml` with a named volume for persistence, exposed only on localhost.
-- [ ] Configure `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB` from `.env`.
-- [ ] Add a healthcheck using `pg_isready` so dependent services wait for DB readiness.
+- [x] Add `postgres` service to `docker-compose.yml` with a named volume for persistence, exposed only on localhost.
+- [x] Configure `POSTGRES_USER`, `POSTGRES_PASSWORD`, `POSTGRES_DB` from `.env`.
+- [x] Add a healthcheck using `pg_isready` so dependent services wait for DB readiness.
 
 ### 0.3 Redis Container Setup
-- [ ] Add `redis` service to `docker-compose.yml` with `redis:7-alpine` image.
-- [ ] Mount a `redis.conf` enabling persistence (`appendonly yes`).
-- [ ] Expose Redis only to the internal Docker network, not to host.
+- [x] Add `redis` service to `docker-compose.yml` with `redis:7-alpine` image.
+- [x] Mount a `redis.conf` enabling persistence (`appendonly yes`).
+- [x] Expose Redis only to the internal Docker network, not to host.
 
 ### 0.4 MinIO Container Setup
-- [ ] Add `minio` service to `docker-compose.yml` with `minio/minio:latest`.
-- [ ] Configure root user/password from `.env`.
-- [ ] Add a startup command to `docker-compose.yml` that creates the required bucket (`media`) using `mc` (MinIO client) after MinIO starts.
+- [x] Add `minio` service to `docker-compose.yml` with `minio/minio:latest`.
+- [x] Configure root user/password from `.env`.
+- [x] Add a startup command to `docker-compose.yml` that creates the required bucket (`media`) using `mc` (MinIO client) after MinIO starts.
 
 ---
 
