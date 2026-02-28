@@ -80,7 +80,7 @@
 - [x] Create `server/migrations/` directory with a `000001_init.up.sql` and `000001_init.down.sql`.
 
 ### 1.2 Users Table
-- [WIP 6] Write migration for `users` table: `id` (UUID PK), `username` (unique), `email` (unique), `password_hash`, `display_name`, `bio`, `avatar_url`, `created_at`, `updated_at`.
+- [x] Write migration for `users` table: `id` (UUID PK), `username` (unique), `email` (unique), `password_hash`, `display_name`, `bio`, `avatar_url`, `created_at`, `updated_at`.
 - [x] Add indexes on `username` and `email`.
 
 ### 1.3 Posts Table
@@ -91,10 +91,10 @@
 - [x] Write migration for `follows` table: `follower_id` (FK → users), `following_id` (FK → users), `created_at`. Composite PK on `(follower_id, following_id)`. Prevent self-follows via check constraint.
 
 ### 1.5 Likes Table
-- [ ] Write migration for `likes` table: `user_id` (FK → users), `post_id` (FK → posts), `created_at`. Composite PK on `(user_id, post_id)`.
+- [x] Write migration for `likes` table: `user_id` (FK → users), `post_id` (FK → posts), `created_at`. Composite PK on `(user_id, post_id)`.
 
 ### 1.6 Comments Table
-- [ ] Write migration for `comments` table: `id` (UUID PK), `post_id` (FK → posts), `user_id` (FK → users), `parent_id` (nullable FK → comments, for threading), `content`, `created_at`, `deleted_at`.
+- [x] Write migration for `comments` table: `id` (UUID PK), `post_id` (FK → posts), `user_id` (FK → users), `parent_id` (nullable FK → comments, for threading), `content`, `created_at`, `deleted_at`.
 
 ### 1.7 Notifications Table
 - [ ] Write migration for `notifications` table: `id` (UUID PK), `recipient_id` (FK → users), `actor_id` (FK → users), `type` (enum: like, comment, follow, mention), `entity_id` (UUID), `entity_type` (post/comment), `is_read` (bool), `created_at`.
