@@ -11,7 +11,8 @@ type Config struct {
 	MinioEndpoint       string
 	MinioAccessKey      string
 	MinioSecretKey      string
-	JWTSecret           string
+	JWTPrivateKey       string
+	JWTPublicKey        string
 	Port                string
 	CORSAllowedOrigins string
 }
@@ -23,7 +24,8 @@ func Load() (*Config, error) {
 		MinioEndpoint:       getEnv("MINIO_ENDPOINT", ""),
 		MinioAccessKey:      getEnv("MINIO_ACCESS_KEY", ""),
 		MinioSecretKey:      getEnv("MINIO_SECRET_KEY", ""),
-		JWTSecret:           getEnv("JWT_SECRET", ""),
+		JWTPrivateKey:       getEnv("JWT_PRIVATE_KEY", ""),
+		JWTPublicKey:        getEnv("JWT_PUBLIC_KEY", ""),
 		Port:                getEnv("PORT", "8080"),
 		CORSAllowedOrigins: getEnv("CORS_ALLOWED_ORIGINS", ""),
 	}
@@ -51,8 +53,11 @@ func (c *Config) Validate() error {
 	if c.MinioSecretKey == "" {
 		return fmt.Errorf("MINIO_SECRET_KEY is required")
 	}
-	if c.JWTSecret == "" {
-		return fmt.Errorf("JWT_SECRET is required")
+	if c.JWTPrivateKey == "" {
+		return fmt.Errorf("JWT_PRIVATE_KEY is required")
+	}
+	if c.JWTPublicKey == "" {
+		return fmt.Errorf("JWT_PUBLIC_KEY is required")
 	}
 	if c.Port == "" {
 		return fmt.Errorf("PORT is required")

@@ -10,6 +10,7 @@ import (
 	"time"
 
 	"github.com/go-chi/chi/v5"
+	"github.com/hrutav-modha/social-media-app/server/internal/auth"
 	"github.com/hrutav-modha/social-media-app/server/internal/config"
 	customMiddleware "github.com/hrutav-modha/social-media-app/server/internal/middleware"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -29,6 +30,11 @@ func main() {
 	cfg, err := config.Load()
 	if err != nil {
 		log.Fatalf("failed to load config: %v", err)
+	}
+
+	// 2.5 Initialize JWT
+	if err := auth.InitJWT(cfg.JWTPrivateKey, cfg.JWTPublicKey); err != nil {
+		log.Fatalf("failed to initialize JWT: %v", err)
 	}
 
 	// 3. Connect to DB (PostgreSQL)

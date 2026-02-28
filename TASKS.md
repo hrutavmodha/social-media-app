@@ -134,10 +134,10 @@
 - [x] Implement `server/internal/auth/password.go` with `HashPassword(plain string) (string, error)` and `CheckPassword(plain, hash string) bool` using bcrypt (cost 12).
 
 ### 3.2 JWT Utilities
-- [WIP 7] Implement `server/internal/auth/jwt.go` with `GenerateAccessToken(userID string) (string, error)` (15-min expiry) and `ValidateAccessToken(token string) (userID string, error)`. Use RS256 with keys loaded from env.
+- [x] Implement `server/internal/auth/jwt.go` with `GenerateAccessToken(userID string) (string, error)` (15-min expiry) and `ValidateAccessToken(token string) (userID string, error)`. Use RS256 with keys loaded from env.
 
 ### 3.3 Refresh Token Logic
-- [ ] Implement `server/internal/auth/refresh.go`: `CreateRefreshToken(ctx, userID)` stores a cryptographically random token hash in Redis with 30-day TTL. `RotateRefreshToken(ctx, token)` validates, deletes old, issues new (token rotation).
+- [WIP 9] Implement `server/internal/auth/refresh.go`: `CreateRefreshToken(ctx, userID)` stores a cryptographically random token hash in Redis with 30-day TTL. `RotateRefreshToken(ctx, token)` validates, deletes old, issues new (token rotation).
 
 ### 3.4 Auth Middleware
 - [ ] Implement `server/internal/middleware/auth.go`: extracts Bearer token from `Authorization` header, validates JWT, attaches `userID` to request context. Returns 401 on failure.
