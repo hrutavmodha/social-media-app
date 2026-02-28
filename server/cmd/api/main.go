@@ -12,6 +12,7 @@ import (
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
 	"github.com/hrutav-modha/social-media-app/server/internal/config"
+	customMiddleware "github.com/hrutav-modha/social-media-app/server/internal/middleware"
 	"github.com/jackc/pgx/v5/pgxpool"
 	"github.com/joho/godotenv"
 	"github.com/minio/minio-go/v7"
@@ -98,6 +99,7 @@ func main() {
 
 func SetupRouter() *chi.Mux {
 	r := chi.NewRouter()
+	r.Use(customMiddleware.RequestID)
 	r.Use(middleware.Logger)
 	r.Use(middleware.Recoverer)
 

@@ -119,10 +119,10 @@
 
 ### 2.4 Database Layer Scaffold
 - [WIP 8] Create `server/internal/db/` directory. Add `server/sqlc.yaml` config pointing to `migrations/` for schema and `internal/db/` for generated code.
-- [ ] Add `make sqlc-generate` target to `Makefile`.
+- [WIP 4] Add `make sqlc-generate` target to `Makefile`.
 
 ### 2.5 Middleware Stack
-- [ ] Implement `RequestID` middleware: attaches a UUID to each request context and response header `X-Request-ID`.
+- [x] Implement `RequestID` middleware: attaches a UUID to each request context and response header `X-Request-ID`.
 - [ ] Implement `Logger` middleware: logs method, path, status, latency, and request ID using Go's `slog`.
 - [ ] Implement `Recoverer` middleware: catches panics, logs stack trace, returns 500.
 - [ ] Implement `CORS` middleware: configurable allowed origins from env var.
