@@ -152,14 +152,14 @@
 - [x] Implement `POST /api/v1/auth/refresh`: read refresh token from cookie, rotate it, return new access token. (Agent 9)
 
 ### 3.8 Logout Endpoint
-- [WIP 1] Implement `POST /api/v1/auth/logout` (requires auth middleware): delete refresh token from Redis, clear cookie.
+- [x] Implement `POST /api/v1/auth/logout` (requires auth middleware): delete refresh token from Redis, clear cookie. (Agent 9 implementation, Agent 1 tests/fixing)
 
 ---
 
 ## Phase 4: Server — User Endpoints
 
 ### 4.1 sqlc Queries — Users
-- [ ] Write sqlc query file `server/internal/db/queries/users.sql` with: `GetUserByID`, `GetUserByUsername`, `UpdateUser` (display_name, bio, avatar_url), `SearchUsers` (ILIKE on username/display_name with limit/offset).
+- [WIP 5] Write sqlc query file `server/internal/db/queries/users.sql` with: `GetUserByID`, `GetUserByUsername`, `UpdateUser` (display_name, bio, avatar_url), `SearchUsers` (ILIKE on username/display_name with limit/offset).
 - [ ] Run `sqlc generate` and verify generated Go code compiles.
 
 ### 4.2 Get Profile Endpoint

@@ -7,7 +7,7 @@ import (
 
 func TestLoadMissingRequired(t *testing.T) {
 	// Clear all required envs for this test
-	keys := []string{"DB_URL", "REDIS_URL", "MINIO_ENDPOINT", "MINIO_ACCESS_KEY", "MINIO_SECRET_KEY", "JWT_SECRET", "PORT"}
+	keys := []string{"DB_URL", "REDIS_URL", "MINIO_ENDPOINT", "MINIO_ACCESS_KEY", "MINIO_SECRET_KEY", "JWT_PRIVATE_KEY", "JWT_PUBLIC_KEY", "PORT"}
 	for _, k := range keys {
 		t.Setenv(k, "")
 	}
@@ -27,7 +27,8 @@ func TestLoadSuccess(t *testing.T) {
 	t.Setenv("MINIO_ENDPOINT", "localhost:9000")
 	t.Setenv("MINIO_ACCESS_KEY", "admin")
 	t.Setenv("MINIO_SECRET_KEY", "password")
-	t.Setenv("JWT_SECRET", "test-secret")
+	t.Setenv("JWT_PRIVATE_KEY", "test-priv-key")
+	t.Setenv("JWT_PUBLIC_KEY", "test-pub-key")
 	t.Setenv("PORT", "9000")
 	t.Setenv("CORS_ALLOWED_ORIGINS", "http://localhost:3000")
 
