@@ -125,7 +125,7 @@
 - [x] Implement `RequestID` middleware: attaches a UUID to each request context and response header `X-Request-ID`.
 - [x] Implement `Logger` middleware: logs method, path, status, latency, and request ID using Go's `slog`.
 - [x] Implement `Recoverer` middleware: catches panics, logs stack trace, returns 500.
-    - [WIP 2] Implement `CORS` middleware: configurable allowed origins from env var.
+    - [x] Implement `CORS` middleware: configurable allowed origins from env var.
 ---
 
 ## Phase 3: Server — Authentication

@@ -66,7 +66,7 @@ func main() {
 	log.Println("Successfully connected to MinIO")
 
 	// 6. Register Routes
-	r := SetupRouter()
+	r := SetupRouter(cfg)
 
 	// 7. Start Server with Graceful Shutdown
 	srv := &http.Server{
@@ -96,11 +96,12 @@ func main() {
 	log.Println("Server exiting")
 }
 
-func SetupRouter() *chi.Mux {
+func SetupRouter(cfg *config.Config) *chi.Mux {
 	r := chi.NewRouter()
 	r.Use(customMiddleware.RequestID)
 	r.Use(customMiddleware.Logger)
 	r.Use(customMiddleware.Recoverer)
+	r.Use(customMiddleware.CORS(cfg.CORSAllowedOrigins))
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Social Media App API is running!"))

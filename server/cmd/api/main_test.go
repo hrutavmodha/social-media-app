@@ -5,11 +5,15 @@ import (
 	"net/http/httptest"
 	"testing"
 
+	"github.com/hrutav-modha/social-media-app/server/internal/config"
 	"github.com/stretchr/testify/assert"
 )
 
 func TestSetupRouter(t *testing.T) {
-	router := SetupRouter()
+	cfg := &config.Config{
+		CORSAllowedOrigins: "*",
+	}
+	router := SetupRouter(cfg)
 
 	t.Run("Root endpoint returns 200", func(t *testing.T) {
 		req, _ := http.NewRequest("GET", "/", nil)
