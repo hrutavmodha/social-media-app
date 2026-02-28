@@ -125,7 +125,7 @@
 - [x] Implement `RequestID` middleware: attaches a UUID to each request context and response header `X-Request-ID`.
 - [x] Implement `Logger` middleware: logs method, path, status, latency, and request ID using Go's `slog`.
 - [x] Implement `Recoverer` middleware: catches panics, logs stack trace, returns 500.
-    - [x] Implement `CORS` middleware: configurable allowed origins from env var.
+- [x] Implement `CORS` middleware: configurable allowed origins from env var.
 ---
 
 ## Phase 3: Server — Authentication
@@ -134,7 +134,7 @@
 - [x] Implement `server/internal/auth/password.go` with `HashPassword(plain string) (string, error)` and `CheckPassword(plain, hash string) bool` using bcrypt (cost 12).
 
 ### 3.2 JWT Utilities
-- [ ] Implement `server/internal/auth/jwt.go` with `GenerateAccessToken(userID string) (string, error)` (15-min expiry) and `ValidateAccessToken(token string) (userID string, error)`. Use RS256 with keys loaded from env.
+- [WIP 7] Implement `server/internal/auth/jwt.go` with `GenerateAccessToken(userID string) (string, error)` (15-min expiry) and `ValidateAccessToken(token string) (userID string, error)`. Use RS256 with keys loaded from env.
 
 ### 3.3 Refresh Token Logic
 - [ ] Implement `server/internal/auth/refresh.go`: `CreateRefreshToken(ctx, userID)` stores a cryptographically random token hash in Redis with 30-day TTL. `RotateRefreshToken(ctx, token)` validates, deletes old, issues new (token rotation).
