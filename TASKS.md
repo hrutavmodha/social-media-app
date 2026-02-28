@@ -106,10 +106,10 @@
 
 ## Phase 2: Server — Project Scaffold & Config
 
-### 2.1 Go Module Init [WIP 7]
-- [ ] Run `go mod init` for the server module inside `server/`.
-- [ ] Add dependencies: `chi`, `pgx/v5`, `redis/v9`, `golang-jwt/jwt/v5`, `gorilla/websocket`, `minio-go/v7`, `godotenv`, `golang-migrate`, `testify`.
-- [ ] Create `server/Makefile` with targets: `build`, `run`, `test`, `lint`, `migrate-up`, `migrate-down`.
+### 2.1 Go Module Init
+- [x] Run `go mod init` for the server module inside `server/`.
+- [x] Add dependencies: `chi`, `pgx/v5`, `redis/v9`, `golang-jwt/jwt/v5`, `gorilla/websocket`, `minio-go/v7`, `godotenv`, `golang-migrate`, `testify`.
+- [x] Create `server/Makefile` with targets: `build`, `run`, `test`, `lint`, `migrate-up`, `migrate-down`.
 
 ### 2.2 Configuration Loader
 - [ ] Create `server/internal/config/config.go` that reads all env vars into a typed `Config` struct (DB DSN, Redis URL, JWT secret, MinIO endpoint/keys, port). Fail fast on missing required fields.
