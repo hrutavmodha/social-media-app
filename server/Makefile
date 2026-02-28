@@ -6,7 +6,7 @@ POSTGRES_PASSWORD ?= password
 POSTGRES_DB ?= social_media
 DB_URL ?= postgres://$(POSTGRES_USER):$(POSTGRES_PASSWORD)@localhost:5432/$(POSTGRES_DB)?sslmode=disable
 
-.PHONY: build run test lint migrate-create migrate-up migrate-down
+.PHONY: build run test lint migrate-create migrate-up migrate-down sqlc-generate
 
 build:
 	go build -o bin/$(BINARY_NAME) $(MAIN_PACKAGE)
@@ -28,3 +28,6 @@ migrate-up:
 
 migrate-down:
 	migrate -path migrations -database "$(DB_URL)" down
+
+sqlc-generate:
+	sqlc generate
