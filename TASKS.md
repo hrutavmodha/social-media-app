@@ -111,8 +111,8 @@
 - [x] Add dependencies: `chi`, `pgx/v5`, `redis/v9`, `golang-jwt/jwt/v5`, `gorilla/websocket`, `minio-go/v7`, `godotenv`, `golang-migrate`, `testify`.
 - [x] Create `server/Makefile` with targets: `build`, `run`, `test`, `lint`, `migrate-up`, `migrate-down`.
 
-### 2.2 Configuration Loader
-- [ ] Create `server/internal/config/config.go` that reads all env vars into a typed `Config` struct (DB DSN, Redis URL, JWT secret, MinIO endpoint/keys, port). Fail fast on missing required fields.
+### 2.2 Configuration Loader [Agent 8 Completed]
+- [x] Create `server/internal/config/config.go` that reads all env vars into a typed `Config` struct (DB DSN, Redis URL, JWT secret, MinIO endpoint/keys, port). Fail fast on missing required fields.
 
 ### 2.3 Server Bootstrap
 - [ ] Create `server/cmd/api/main.go` that: loads config, initializes DB pool (pgx), connects to Redis, connects to MinIO, registers routes, starts HTTP server with graceful shutdown on SIGINT/SIGTERM.
