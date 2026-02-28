@@ -10,7 +10,6 @@ import (
 	"time"
 
 	"github.com/go-chi/chi/v5"
-	"github.com/go-chi/chi/v5/middleware"
 	"github.com/hrutav-modha/social-media-app/server/internal/config"
 	customMiddleware "github.com/hrutav-modha/social-media-app/server/internal/middleware"
 	"github.com/jackc/pgx/v5/pgxpool"
@@ -101,7 +100,7 @@ func SetupRouter() *chi.Mux {
 	r := chi.NewRouter()
 	r.Use(customMiddleware.RequestID)
 	r.Use(customMiddleware.Logger)
-	r.Use(middleware.Recoverer)
+	r.Use(customMiddleware.Recoverer)
 
 	r.Get("/", func(w http.ResponseWriter, r *http.Request) {
 		w.Write([]byte("Social Media App API is running!"))
